@@ -12,4 +12,4 @@ include_directories(${LV2_INCLUDE_DIRS})
 
 # Position independed code is set automatically
 add_library(${PROJECT_NAME} MODULE
-    src/Amp.cpp src/Amp.h)
+    src/Amp.hpp src/Amp.cpp)
