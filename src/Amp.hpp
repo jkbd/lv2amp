@@ -1,10 +1,36 @@
+// MIT License
+//
+// Copyright (c) 2018 Jakob Dübel <jkbd@posteo.de>
+// Copyright (c) 2006-2016 David Robillard <d@drobilla.net>
+// Copyright (c) 2006 Steve Harris <steve@plugin.org.uk>
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
 #ifndef AMP_H
 #define AMP_H
 
 #include <cmath>
 #include "lv2.h"
 
-namespace {
+// A namespace to force these symbols being not exported in the shared
+// library.
+namespace jkbd {
   class AmpPlugin {
   public:
     enum Port {
@@ -17,95 +43,52 @@ namespace {
     const float* gain;
     const float* input;
     float*       output;
-    
   };
 
   static LV2_Handle
   instantiate(const LV2_Descriptor*     descriptor,
 	      double                    rate,
 	      const char*               bundle_path,
-	      const LV2_Feature* const* features)
-  {
-    AmpPlugin* amp = new AmpPlugin();
-    return static_cast<LV2_Handle>(amp);
-  }
-
+	      const LV2_Feature* const* features);
+  
   static void
   connect_port(LV2_Handle instance,
 	       uint32_t   port,
-	       void*      data)
-  {
-    AmpPlugin* amp = static_cast<AmpPlugin*>(instance);
-    switch (static_cast<AmpPlugin::Port>(port)) {
-    case AmpPlugin::Port::GAIN:
-      amp->gain = static_cast<const float*>(data);
-      break;
-    case AmpPlugin::Port::INPUT:
-      amp->input = static_cast<const float*>(data);
-      break;
-    case AmpPlugin::Port::OUTPUT:
-      amp->output = static_cast<float*>(data);
-      break;
-    }    
-  }
+	       void*      data);
   
   static void
-  activate(LV2_Handle instance) {
-  }
-
-  inline float decibel_to_coef(float gain) {
-    return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
-  }
+  activate(LV2_Handle instance);
   
   static void
-  run(LV2_Handle instance, uint32_t n_samples) {
-    const AmpPlugin* amp = static_cast<const AmpPlugin*>(instance);
-
-    const float        gain   = *(amp->gain);
-    const float* const input  = amp->input;
-    float* const       output = amp->output;
-    
-    const float coef = decibel_to_coef(gain);
-    
-    for (uint32_t pos = 0; pos < n_samples; ++pos) {
-      output[pos] = input[pos] * coef;
-    }
-  }
+  run(LV2_Handle instance, uint32_t n_samples);
   
   static void
-  deactivate(LV2_Handle instance) {
-  }
+  deactivate(LV2_Handle instance);
   
   static void
-  cleanup(LV2_Handle instance) {
-    delete static_cast<AmpPlugin*>(instance);
-  }
+  cleanup(LV2_Handle instance);
   
   static const void*
-  extension_data(const char* uri) {
-    return nullptr;
-  }
+  extension_data(const char* uri);
 
   static constexpr char uri[] = "https://github.com/jkbd/lv2amp";
   
   static const LV2_Descriptor
   descriptor = {
-	      ::uri,
+	      jkbd::uri,
 	      instantiate, // instantiate
 	      connect_port, // connect_port,
 	      activate, // activate
 	      run, // run
 	      deactivate, // deactivate
 	      cleanup, // cleanup
-	      extension_data // extension_data
-	      
+	      extension_data // extension_data	      
   };
-}
+} // namespace jkbd
 
 // Force no C++ name mangeling
 extern "C" {  
   const LV2_Descriptor* lv2_descriptor(uint32_t index);
 }
-
 
 #endif // AMP_H
