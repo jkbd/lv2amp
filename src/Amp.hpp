@@ -7,8 +7,6 @@
 namespace {
   class AmpPlugin {
   public:
-    static constexpr char uri[] = "https://github.com/jkbd/lv2amp";
-
     enum Port {
 	       GAIN = 0,
 	       INPUT = 1,
@@ -87,10 +85,12 @@ namespace {
   extension_data(const char* uri) {
     return nullptr;
   }
+
+  static constexpr char uri[] = "https://github.com/jkbd/lv2amp";
   
   static const LV2_Descriptor
   descriptor = {
-	      AmpPlugin::uri,
+	      ::uri,
 	      instantiate, // instantiate
 	      connect_port, // connect_port,
 	      activate, // activate
