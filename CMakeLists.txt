@@ -26,4 +26,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR})
 
 configure_file(data/manifest.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/manifest.ttl)
-configure_file(data/${PROJECT_NAME}.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/${PROJECT_NAME}.ttl)
+configure_file(data/seealso.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/${PROJECT_NAME}.ttl)
