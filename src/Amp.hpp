@@ -71,7 +71,7 @@ namespace jkbd {
   static const void*
   extension_data(const char* uri);
 
-  static constexpr char uri[] = "https://github.com/jkbd/lv2amp";
+  static constexpr char uri[] = "https://github.com/jkbd/amp";
   
   static const LV2_Descriptor
   descriptor = {
