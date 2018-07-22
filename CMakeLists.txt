@@ -26,7 +26,7 @@ cmake_minimum_required(VERSION 3.10)
 # http://lv2plug.in/ns/lv2core/lv2core.html#minorVersion
 project(amp
     VERSION 0.1.0
-    LANGUAGES CXX)
+    LANGUAGES CXX C)
 
 set(LV2_URI_PREFIX https://github.com/jkbd/)
 
@@ -54,3 +54,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 configure_file(data/manifest.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/manifest.ttl)
 configure_file(data/seealso.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/${PROJECT_NAME}.ttl)
+
+install(DIRECTORY ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR} DESTINATION $ENV{HOME}/.lv2)
