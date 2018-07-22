@@ -8,6 +8,8 @@
 	a lv2:Plugin ,
 		lv2:AmplifierPlugin ;
 	lv2:project <http://lv2plug.in/ns/lv2> ;
+	lv2:minorVersion @PROJECT_VERSION_MINOR@ ;
+	lv2:microVersion @PROJECT_VERSION_PATCH@ ;
 	doap:name "Simple Amplifier" ,
 		"Einfacher Verstärker"@de ,
 		"Simple Amplifier"@en-gb ,

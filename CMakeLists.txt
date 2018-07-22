@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
-project(amp)
+
+# For versioning read https://semver.org/ and
+# http://lv2plug.in/ns/lv2core/lv2core.html#minorVersion
+project(amp
+    VERSION 0.1.0
+    LANGUAGES CXX)
 
 set(LV2_URI_PREFIX https://github.com/jkbd/)
 
