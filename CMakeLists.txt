@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
 project(amp)
 
+set(LV2_URI_PREFIX https://github.com/jkbd/)
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -22,3 +24,6 @@ add_library(${PROJECT_NAME} MODULE
 add_dependencies(${PROJECT_NAME} bundle)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR})
+
+configure_file(data/manifest.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/manifest.ttl)
+configure_file(data/${PROJECT_NAME}.ttl.in ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR}/${PROJECT_NAME}.ttl)
