@@ -17,7 +17,7 @@
 		"Amplificateur de Base"@fr ,
 		"Amplificatore Semplice"@it ,
 		"Просто Усилитель"@ru ;
-	doap:license <http://opensource.org/licenses/isc> ;
+	doap:license <https://opensource.org/licenses/MIT> ;
 	lv2:optionalFeature lv2:hardRTCapable ;
 	lv2:port [
 		a lv2:InputPort ,
