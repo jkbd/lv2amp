@@ -10,6 +10,15 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(LV2 REQUIRED)
 include_directories(${LV2_INCLUDE_DIRS})
 
+# LV2 bundle directory
+set(LV2_BUNDLE_DIR "${PROJECT_NAME}.lv2")
+add_custom_target(bundle
+    COMMAND ${CMAKE_COMMAND} -E
+        make_directory ${LV2_BUNDLE_DIR})
+
 # Position independed code is set automatically
 add_library(${PROJECT_NAME} MODULE
     src/Amp.hpp src/Amp.cpp)
+add_dependencies(${PROJECT_NAME} bundle)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+    LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR})
