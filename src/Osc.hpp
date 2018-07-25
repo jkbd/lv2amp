@@ -47,6 +47,8 @@ namespace jkbd {
     float f[2]{ 0.0f, 0.0f };
     float x[2]{ 0.0f, 0.0f };
     float y[2]{ 0.0f, 1.0f };
+
+    bool index{ false };
   };
 
   static LV2_Handle

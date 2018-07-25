@@ -16,19 +16,17 @@ namespace jkbd {
 
     const float PIT = M_PI / 48000.0f;
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
-      f[0] = s + (0.999000013f * f[1]);
+      f[static_cast<int>(index)] = s + (0.999000013f * f[static_cast<int>(!index)]);
 
       // "Magic Circle" algorithm
-      const float e = 2*sin(PIT * f[0]);
-      x[0] = x[1] + e*y[1];
-      y[0] = -e*x[0] + y[1];
+      const float e = 2*sin(PIT * f[static_cast<int>(index)]);
+      x[static_cast<int>(index)] = x[static_cast<int>(!index)] + e*y[static_cast<int>(!index)];
+      y[static_cast<int>(index)] = -e*x[static_cast<int>(index)] + y[static_cast<int>(!index)];
       
-      sine[pos] = x[0];
-      cosine[pos] = y[0];
+      sine[pos] = x[static_cast<int>(index)];
+      cosine[pos] = y[static_cast<int>(index)];
 
-      f[1] = f[0];
-      x[1] = x[0];
-      y[1] = y[0];
+      index = !index;
     }
   }
   
