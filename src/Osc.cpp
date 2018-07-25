@@ -17,15 +17,12 @@ namespace jkbd {
     // FAUST generated code... how does it fake cosine?
     const float PI2T = 2*M_PI / 48000.0f;
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
-
       f[0] = s + (0.999000013f * f[1]);
-      //const float v = PI2T * f[0];
 
-      const float k = cos(PI2T * f[0]);
-      const float a = sin(PI2T * f[0])/sin(PI2T * f[1]);
-
-      x[0] = k*x[1] + y[1];
-      y[0] = k*x[0] - x[1];
+      // Direct-form, second-order, digital resonator
+      const float c = cos(PI2T * f[0]);
+      x[0] = 2*c*x[1] - y[1];
+      y[0] = x[1];
       
       sine[pos] = x[0];
       cosine[pos] = y[0];
