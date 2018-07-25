@@ -14,15 +14,14 @@ namespace jkbd {
     // See Smith & Cook "The Second-Order Digital Waveguide Oscillator" 1992,
     // https://ccrma.stanford.edu/~jos/wgo/wgo.pdf, p. 2    
 
-    // FAUST generated code... how does it fake cosine?
-    const float PI2T = 2*M_PI / 48000.0f;
+    const float PIT = M_PI / 48000.0f;
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
       f[0] = s + (0.999000013f * f[1]);
 
-      // Direct-form, second-order, digital resonator
-      const float c = cos(PI2T * f[0]);
-      x[0] = 2*c*x[1] - y[1];
-      y[0] = x[1];
+      // "Magic Circle" algorithm
+      const float e = 2*sin(PIT * f[0]);
+      x[0] = x[1] + e*y[1];
+      y[0] = -e*x[0] + y[1];
       
       sine[pos] = x[0];
       cosine[pos] = y[0];
