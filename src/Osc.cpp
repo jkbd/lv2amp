@@ -19,12 +19,16 @@ namespace jkbd {
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
 
       f[0] = s + (0.999000013f * f[1]);
-      const float v = PI2T * f[0];     
+      //const float v = PI2T * f[0];
 
-      x[0] = x[1] - (v * y[1]);
-      y[0] = y[1] + (v * x[0]);
+      const float k = cos(PI2T * f[0]);
+      const float a = sin(PI2T * f[0])/sin(PI2T * f[1]);
+
+      x[0] = k*x[1] + y[1];
+      y[0] = k*x[0] - x[1];
       
-      output[pos] = y[0];
+      sine[pos] = x[0];
+      cosine[pos] = y[0];
 
       f[1] = f[0];
       x[1] = x[0];
@@ -45,8 +49,11 @@ namespace jkbd {
   {
     Osc* osc = static_cast<Osc*>(instance);
     switch (static_cast<Osc::Port>(port)) {
-    case Osc::Port::OUTPUT:
-      osc->output = static_cast<float*>(data);
+    case Osc::Port::SINE:
+      osc->sine = static_cast<float*>(data);
+      break;
+    case Osc::Port::COSINE:
+      osc->cosine = static_cast<float*>(data);
       break;
     case Osc::Port::FREQ:
       osc->freq = static_cast<const float*>(data);

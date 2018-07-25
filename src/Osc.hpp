@@ -30,23 +30,23 @@ namespace jkbd {
   class Osc {
   public:
     enum Port {
-	       OUTPUT = 0,
-	       FREQ = 1,
+	       SINE = 0,
+	       COSINE = 1,	       
+	       FREQ = 2,
     };
 
     // Port buffers
-    float*       output;
+    float*       sine;
+    float*       cosine;
     const float* freq;
 
     void run(uint32_t n_samples);
 
   private:
-    //float c_n1, f_n1;
     // Note: x[0] is x_{n} and x[1] is backward in time x_{n-1}
-
     float f[2]{ 0.0f, 0.0f };
     float x[2]{ 0.0f, 0.0f };
-    float y[2]{ 0.0f, 1.0f };    
+    float y[2]{ 0.0f, 1.0f };
   };
 
   static LV2_Handle

@@ -27,12 +27,21 @@
 		a lv2:AudioPort ,
 			lv2:OutputPort ;
 		lv2:index 0 ;
-		lv2:symbol "out" ;
-		lv2:name "Out"
+		lv2:symbol "sin" ;
+		lv2:name "Sine",
+			"Sinus"@de
 	] , [
+		a lv2:AudioPort ,
+			lv2:OutputPort ;
+		lv2:index 1 ;
+		lv2:symbol "cos" ;
+		lv2:name "Cosine" ,
+			"Cosinus"@de
+	] , [
+
 		a lv2:InputPort ,
 			lv2:ControlPort ;
-		lv2:index 1 ;
+		lv2:index 2 ;
 		lv2:symbol "freq" ;
 		lv2:name "Frequency" ,
 			"Frequenz"@de ;
