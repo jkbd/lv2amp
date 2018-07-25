@@ -45,7 +45,7 @@ namespace jkbd {
     // Note: x[0] is x_{n} and x[1] is backward in time x_{n-1}
 
     float f[2]{ 0.0f, 0.0f };
-    float z[2]{ 0.0f, 0.0f };
+    float x[2]{ 0.0f, 0.0f };
     float y[2]{ 0.0f, 1.0f };    
   };
 
