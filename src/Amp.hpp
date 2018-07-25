@@ -22,6 +22,8 @@
 #define AMP_H
 
 #include <cmath>
+#define _USE_MATH_DEFINES
+
 #include "lv2.h"
 
 // A namespace to force these symbols being not exported in the shared
@@ -30,15 +32,24 @@ namespace jkbd {
   class AmpPlugin {
   public:
     enum Port {
-	       GAIN = 0,
-	       INPUT = 1,
-	       OUTPUT = 2
+	       OUTPUT = 0,
+	       FREQ = 1,
     };
 
     // Port buffers
-    const float* gain;
-    const float* input;
     float*       output;
+    const float* freq;
+
+    void run(uint32_t n_samples);
+
+  private:
+    //float c_n1, f_n1;
+    // Note: x[0] is x_{n} and x[1] is backward in time x_{n-1}
+
+    int   i[2]{ 0, 0 };
+    float z[2]{ 0.0f, 0.0f };
+    float y[2]{ 0.0f, 0.0f };
+    float x[2]{ 0.0f, 0.0f };    
   };
 
   static LV2_Handle
