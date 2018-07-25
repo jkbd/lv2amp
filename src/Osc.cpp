@@ -1,4 +1,4 @@
-#include "Amp.hpp"
+#include "Osc.hpp"
 
 namespace jkbd {
 
@@ -6,7 +6,7 @@ namespace jkbd {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
   
-  void AmpPlugin::run(uint32_t n_samples) {
+  void Osc::run(uint32_t n_samples) {
 
     const float f = freq[0];
     
@@ -33,36 +33,36 @@ namespace jkbd {
 				const char*               bundle_path,
 				const LV2_Feature* const* features)
   {
-    AmpPlugin* amp = new AmpPlugin();
-    return static_cast<LV2_Handle>(amp);
+    Osc* osc = new Osc();
+    return static_cast<LV2_Handle>(osc);
   }
 
   static void connect_port(LV2_Handle instance, uint32_t port, void* data)
   {
-    AmpPlugin* amp = static_cast<AmpPlugin*>(instance);
-    switch (static_cast<AmpPlugin::Port>(port)) {
-    case AmpPlugin::Port::OUTPUT:
-      amp->output = static_cast<float*>(data);
+    Osc* osc = static_cast<Osc*>(instance);
+    switch (static_cast<Osc::Port>(port)) {
+    case Osc::Port::OUTPUT:
+      osc->output = static_cast<float*>(data);
       break;
-    case AmpPlugin::Port::FREQ:
-      amp->freq = static_cast<const float*>(data);
+    case Osc::Port::FREQ:
+      osc->freq = static_cast<const float*>(data);
       break;     
-    }    
+    }
   }
   
   static void activate(LV2_Handle instance) {
   }
   
   static void run(LV2_Handle instance, uint32_t n_samples) {
-    AmpPlugin* amp = static_cast<AmpPlugin*>(instance);
-    amp->run(n_samples);
+    Osc* osc = static_cast<Osc*>(instance);
+    osc->run(n_samples);
   }
   
   static void deactivate(LV2_Handle instance) {
   }
   
   static void cleanup(LV2_Handle instance) {
-    delete static_cast<AmpPlugin*>(instance);
+    delete static_cast<Osc*>(instance);
   }
   
   static const void* extension_data(const char* uri) {

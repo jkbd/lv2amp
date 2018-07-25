@@ -1,8 +1,6 @@
 // ISC License
 //
 // Copyright (c) 2018 Jakob Dübel <jkbd@posteo.de>
-// Copyright (c) 2006-2016 David Robillard <d@drobilla.net>
-// Copyright (c) 2006 Steve Harris <steve@plugin.org.uk>
 //
 // Permission to use, copy, modify, and/or distribute this software
 // for any purpose with or without fee is hereby granted, provided
@@ -18,8 +16,8 @@
 // NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
 // CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-#ifndef AMP_H
-#define AMP_H
+#ifndef OSC_H
+#define OSC_H
 
 #include <cmath>
 #define _USE_MATH_DEFINES
@@ -29,7 +27,7 @@
 // A namespace to force these symbols being not exported in the shared
 // library.
 namespace jkbd {
-  class AmpPlugin {
+  class Osc {
   public:
     enum Port {
 	       OUTPUT = 0,
@@ -76,7 +74,7 @@ namespace jkbd {
   static const void*
   extension_data(const char* uri);
 
-  static constexpr char uri[] = "https://github.com/jkbd/amp";
+  static constexpr char uri[] = "https://github.com/jkbd/osc";
   
   static const LV2_Descriptor
   descriptor = {
@@ -96,4 +94,4 @@ extern "C" {
   const LV2_Descriptor* lv2_descriptor(uint32_t index);
 }
 
-#endif // AMP_H
+#endif // OSC_H

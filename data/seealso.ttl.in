@@ -13,17 +13,13 @@
 
 <@LV2_URI_PREFIX@@PROJECT_NAME@>
 	a lv2:Plugin ,
-		lv2:AmplifierPlugin ;
+		lv2:GeneratorPlugin ,
+		lv2:OscillatorPlugin ;
 	a doap:Project ;
 	lv2:minorVersion @PROJECT_VERSION_MINOR@ ;
 	lv2:microVersion @PROJECT_VERSION_PATCH@ ;
-	doap:name "Simple Amplifier" ,
-		"Einfacher Verstärker"@de ,
-		"Simple Amplifier"@en-gb ,
-		"Amplificador Simple"@es ,
-		"Amplificateur de Base"@fr ,
-		"Amplificatore Semplice"@it ,
-		"Просто Усилитель"@ru ;
+	doap:name "Oscillator" ,
+		"Oszillator"@de ;
 	doap:license <https://opensource.org/licenses/ISC> ;
 	doap:maintainer <https://github.com/jkbd#me> ;
 	lv2:optionalFeature lv2:hardRTCapable ;
