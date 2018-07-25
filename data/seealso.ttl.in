@@ -24,7 +24,7 @@
 		"Amplificateur de Base"@fr ,
 		"Amplificatore Semplice"@it ,
 		"Просто Усилитель"@ru ;
-	doap:license <https://opensource.org/licenses/MIT> ;
+	doap:license <https://opensource.org/licenses/ISC> ;
 	doap:maintainer <https://github.com/jkbd#me> ;
 	lv2:optionalFeature lv2:hardRTCapable ;
 	lv2:port [
