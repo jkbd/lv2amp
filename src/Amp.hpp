@@ -46,10 +46,8 @@ namespace jkbd {
     //float c_n1, f_n1;
     // Note: x[0] is x_{n} and x[1] is backward in time x_{n-1}
 
-    int   i[2]{ 0, 0 };
     float z[2]{ 0.0f, 0.0f };
-    float y[2]{ 0.0f, 0.0f };
-    float x[2]{ 0.0f, 0.0f };    
+    float y[2]{ 0.0f, 1.0f };    
   };
 
   static LV2_Handle

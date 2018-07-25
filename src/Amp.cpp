@@ -18,19 +18,13 @@ namespace jkbd {
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
       const float v = PI2T * f;
 
-      i[0] = 1;
-
-      z[0] =  z[1] + (v * -x[1]);
-      y[0] = (y[1] + (v *  z[0])) + float(1 - i[1]); // Einmal i[1]==0. Nachfolgend immer 1?
-      x[0] = y[0];
+      z[0] = z[1] - (v * y[1]);
+      y[0] = y[1] + (v * z[0]);
       
-      output[pos] = x[0];
-      
-      i[1] = i[0];
+      output[pos] = y[0];
 
       z[1] = z[0];
       y[1] = y[0];
-      x[1] = x[0];      
     }
   }
   
