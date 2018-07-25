@@ -8,7 +8,8 @@ namespace jkbd {
   
   void Osc::run(uint32_t n_samples) {
 
-    const float f = freq[0];
+    // Smooth the control parameter
+    float s = 0.00100000005f * freq[0];
     
     // See Smith & Cook "The Second-Order Digital Waveguide Oscillator" 1992,
     // https://ccrma.stanford.edu/~jos/wgo/wgo.pdf, p. 2    
@@ -16,13 +17,16 @@ namespace jkbd {
     // FAUST generated code... how does it fake cosine?
     const float PI2T = 2*M_PI / 48000.0f;
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
-      const float v = PI2T * f;
+
+      f[0] = s + (0.999000013f * f[1]);
+      const float v = PI2T * f[0];     
 
       z[0] = z[1] - (v * y[1]);
       y[0] = y[1] + (v * z[0]);
       
       output[pos] = y[0];
 
+      f[1] = f[0];
       z[1] = z[0];
       y[1] = y[0];
     }
