@@ -20,7 +20,7 @@ cmake_minimum_required(VERSION 3.10)
 
 # For versioning read https://semver.org/ and
 # http://lv2plug.in/ns/lv2core/lv2core.html#minorVersion
-project(osc
+project(tri
     VERSION 0.1.0
     LANGUAGES CXX C)
 
