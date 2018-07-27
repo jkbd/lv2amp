@@ -5,6 +5,11 @@ namespace jkbd {
   inline float decibel_to_coef(float gain) {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
+
+  void Osc::sample_rate(double sr) {
+    // TODO: assert 0 < sr <= 192000.0 ?
+    Osc::sr = sr;
+  }
   
   void Osc::run(uint32_t n_samples) {
 
@@ -14,12 +19,12 @@ namespace jkbd {
     // See Smith & Cook "The Second-Order Digital Waveguide Oscillator" 1992,
     // https://ccrma.stanford.edu/~jos/wgo/wgo.pdf, p. 2    
 
-    const float PIT = M_PI / 48000.0f;
+    const float pit = M_PI / sr;
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
       f[static_cast<int>(index)] = s + (0.999000013f * f[static_cast<int>(!index)]);
 
       // "Magic Circle" algorithm
-      const float e = 2*sin(PIT * f[static_cast<int>(index)]);
+      const float e = 2*sin(pit * f[static_cast<int>(index)]);
       x[static_cast<int>(index)] = x[static_cast<int>(!index)] + e*y[static_cast<int>(!index)];
       y[static_cast<int>(index)] = -e*x[static_cast<int>(index)] + y[static_cast<int>(!index)];
       
@@ -36,6 +41,7 @@ namespace jkbd {
 				const LV2_Feature* const* features)
   {
     Osc* osc = new Osc();
+    osc->sample_rate(rate);
     return static_cast<LV2_Handle>(osc);
   }
 
