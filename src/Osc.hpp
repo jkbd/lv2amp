@@ -38,12 +38,9 @@ namespace jkbd {
     };
 
     // Port buffers
-    float*       out1;
-    float*       out2;
-    float*       out3;
-    float*       out4;
+    float* out[4];
     const float* freq;
-    const int phases = 4; // Dividable by 2!
+    const int phases = 4; // TODO: static_assert, dividable by 2!
 
     void sample_rate(double sr);
     void run(uint32_t n_samples);

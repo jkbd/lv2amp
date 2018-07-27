@@ -39,28 +39,28 @@ namespace jkbd {
       // Copy to output
       switch(p) {
       case 0:
-	out1[pos] = a-y;
-	out2[pos] = 0;
-	out3[pos] = 0;
-	out4[pos] = y;
+	out[0][pos] = a-y;
+	out[1][pos] = 0;
+	out[2][pos] = 0;
+	out[3][pos] = y;
 	break;
       case 1:
-	out1[pos] = a-y;
-	out2[pos] = y;
-	out3[pos] = 0;
-	out4[pos] = 0;
+	out[0][pos] = a-y;
+	out[1][pos] = y;
+	out[2][pos] = 0;
+	out[3][pos] = 0;
 	break;
       case 2:
-	out1[pos] = 0;
-	out2[pos] = y;
-	out3[pos] = a-y;
-	out4[pos] = 0;
+	out[0][pos] = 0;
+	out[1][pos] = y;
+	out[2][pos] = a-y;
+	out[3][pos] = 0;
 	break;
       case 3:
-	out1[pos] = 0;
-	out2[pos] = 0;
-	out3[pos] = a-y;
-	out4[pos] = y;
+	out[0][pos] = 0;
+	out[1][pos] = 0;
+	out[2][pos] = a-y;
+	out[3][pos] = y;
 	break;
       }
 
@@ -83,16 +83,16 @@ namespace jkbd {
     Osc* osc = static_cast<Osc*>(instance);
     switch (static_cast<Osc::Port>(port)) {
     case Osc::Port::OUTPUT1:
-      osc->out1 = static_cast<float*>(data);
+      osc->out[0] = static_cast<float*>(data);
       break;
     case Osc::Port::OUTPUT2:
-      osc->out2 = static_cast<float*>(data);
+      osc->out[1] = static_cast<float*>(data);
       break;
     case Osc::Port::OUTPUT3:
-      osc->out3 = static_cast<float*>(data);
+      osc->out[2] = static_cast<float*>(data);
       break;
     case Osc::Port::OUTPUT4:
-      osc->out4 = static_cast<float*>(data);
+      osc->out[3] = static_cast<float*>(data);
       break;
     case Osc::Port::FREQ:
       osc->freq = static_cast<const float*>(data);
