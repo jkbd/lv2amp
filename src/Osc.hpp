@@ -34,11 +34,11 @@ namespace jkbd {
   class Osc {
   public:
     enum Port {
-	       OUTPUT1 = 0,
-	       OUTPUT2 = 1,
-	       OUTPUT3 = 2,
-	       OUTPUT4 = 3,
-	       FREQ = 4
+	       Out_0, // = 0
+	       Out_1,
+	       Out_2,
+	       Out_3,
+	       Freq
     };
 
     // Port buffers

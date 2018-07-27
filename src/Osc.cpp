@@ -65,19 +65,19 @@ namespace jkbd {
   {
     Osc<>* osc = static_cast<Osc<>*>(instance);
     switch (static_cast<Osc<>::Port>(port)) {
-    case Osc<>::Port::OUTPUT1:
-      osc->out[0] = static_cast<float*>(data);
+    case Osc<>::Port::Out_0:
+      osc->out[Osc<>::Port::Out_0] = static_cast<float*>(data);
       break;
-    case Osc<>::Port::OUTPUT2:
-      osc->out[1] = static_cast<float*>(data);
+    case Osc<>::Port::Out_1:
+      osc->out[Osc<>::Port::Out_1] = static_cast<float*>(data);
       break;
-    case Osc<>::Port::OUTPUT3:
-      osc->out[2] = static_cast<float*>(data);
+    case Osc<>::Port::Out_2:
+      osc->out[Osc<>::Port::Out_2] = static_cast<float*>(data);
       break;
-    case Osc<>::Port::OUTPUT4:
-      osc->out[3] = static_cast<float*>(data);
+    case Osc<>::Port::Out_3:
+      osc->out[Osc<>::Port::Out_3] = static_cast<float*>(data);
       break;
-    case Osc<>::Port::FREQ:
+    case Osc<>::Port::Freq:
       osc->freq = static_cast<const float*>(data);
       break;     
     }
