@@ -30,27 +30,24 @@ namespace jkbd {
   class Osc {
   public:
     enum Port {
-	       SINE = 0,
-	       COSINE = 1,	       
+	       TRIANGLE = 0,
+	       INVERSE = 1,	       
 	       FREQ = 2,
     };
 
     // Port buffers
-    float*       sine;
-    float*       cosine;
+    float*       tri;
+    float*       inv;
     const float* freq;
 
     void sample_rate(double sr);
     void run(uint32_t n_samples);
     
   private:
-    // Note: x[0] is x_{n} and x[1] is backward in time x_{n-1}
-    float f[2]{ 0.0f, 0.0f };
-    float x[2]{ 0.0f, 0.0f };
-    float y[2]{ 0.0f, 1.0f };
+    float y{ 0.0f };
 
-    bool index{ false };
     double sr{ 8000.0 };
+    bool rise{ true };
   };
 
   static LV2_Handle
@@ -79,7 +76,7 @@ namespace jkbd {
   static const void*
   extension_data(const char* uri);
 
-  static constexpr char uri[] = "https://github.com/jkbd/osc";
+  static constexpr char uri[] = "https://github.com/jkbd/tri";
   
   static const LV2_Descriptor
   descriptor = {

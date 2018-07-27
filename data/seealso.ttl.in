@@ -27,16 +27,16 @@
 		a lv2:AudioPort ,
 			lv2:OutputPort ;
 		lv2:index 0 ;
-		lv2:symbol "sin" ;
-		lv2:name "Sine",
-			"Sinus"@de
+		lv2:symbol "tri" ;
+		lv2:name "Triangle",
+			"Dreieck"@de
 	] , [
 		a lv2:AudioPort ,
 			lv2:OutputPort ;
 		lv2:index 1 ;
-		lv2:symbol "cos" ;
-		lv2:name "Cosine" ,
-			"Cosinus"@de
+		lv2:symbol "inv" ;
+		lv2:name "Inverse" ,
+			"Invers"@de
 	] , [
 
 		a lv2:InputPort ,

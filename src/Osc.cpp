@@ -12,26 +12,25 @@ namespace jkbd {
   }
   
   void Osc::run(uint32_t n_samples) {
-
-    // Smooth the control parameter
-    float s = 0.00100000005f * freq[0];
+    // Amplitude
+    const float a = 1.0;
     
-    // See Smith & Cook "The Second-Order Digital Waveguide Oscillator" 1992,
-    // https://ccrma.stanford.edu/~jos/wgo/wgo.pdf, p. 2    
-
-    const float pit = M_PI / sr;
+    // Anstieg der linken Flanke
+    float m = 2*a*freq[0]/sr;
+    
     for (uint32_t pos = 0; pos < n_samples; ++pos) {
-      f[static_cast<int>(index)] = s + (0.999000013f * f[static_cast<int>(!index)]);
 
-      // "Magic Circle" algorithm
-      const float e = 2*sin(pit * f[static_cast<int>(index)]);
-      x[static_cast<int>(index)] = x[static_cast<int>(!index)] + e*y[static_cast<int>(!index)];
-      y[static_cast<int>(index)] = -e*x[static_cast<int>(index)] + y[static_cast<int>(!index)];
+      // Ping pong between the bounds
+      if (y >= a-m/2) {
+	rise = false;
+      }
+      if (y <= 0+m/2) {
+	rise = true;
+      }
+      rise ? y += (m) : y -= (m);
       
-      sine[pos] = x[static_cast<int>(index)];
-      cosine[pos] = y[static_cast<int>(index)];
-
-      index = !index;
+      tri[pos] = y;
+      inv[pos] = a - y;
     }
   }
   
@@ -49,11 +48,11 @@ namespace jkbd {
   {
     Osc* osc = static_cast<Osc*>(instance);
     switch (static_cast<Osc::Port>(port)) {
-    case Osc::Port::SINE:
-      osc->sine = static_cast<float*>(data);
+    case Osc::Port::TRIANGLE:
+      osc->tri = static_cast<float*>(data);
       break;
-    case Osc::Port::COSINE:
-      osc->cosine = static_cast<float*>(data);
+    case Osc::Port::INVERSE:
+      osc->inv = static_cast<float*>(data);
       break;
     case Osc::Port::FREQ:
       osc->freq = static_cast<const float*>(data);
