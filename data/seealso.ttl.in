@@ -27,36 +27,39 @@
 		a lv2:AudioPort ,
 			lv2:OutputPort ;
 		lv2:index 0 ;
-		lv2:symbol "tri" ;
-		lv2:name "Triangle",
-			"Dreieck"@de
-	] , [
+		lv2:symbol "out1" ;
+		lv2:name "Output 1",
+			"Ausgang 1"@de
+	] , [	
 		a lv2:AudioPort ,
 			lv2:OutputPort ;
 		lv2:index 1 ;
-		lv2:symbol "inv" ;
-		lv2:name "Inverse" ,
-			"Invers"@de
+		lv2:symbol "out2" ;
+		lv2:name "Output 2",
+			"Ausgang 2"@de
 	] , [
-
+		a lv2:AudioPort ,
+			lv2:OutputPort ;
+		lv2:index 2 ;
+		lv2:symbol "out3" ;
+		lv2:name "Output 3" ,
+			"Ausgang 3"@de
+	] , [
+		a lv2:AudioPort ,
+			lv2:OutputPort ;
+		lv2:index 3 ;
+		lv2:symbol "out4" ;
+		lv2:name "Output 4" ,
+			"Ausgang 4"@de
+	] , [
 		a lv2:InputPort ,
 			lv2:ControlPort ;
-		lv2:index 2 ;
+		lv2:index 4 ;
 		lv2:symbol "freq" ;
 		lv2:name "Frequency" ,
 			"Frequenz"@de ;
-		lv2:default 440.0 ;
-		lv2:minimum 220.0 ;
-		lv2:maximum 880.0 ;
-		units:unit units:hz ;
-		lv2:scalePoint [
-			rdfs:label "440" ;
-			rdf:value 440.0
-		] , [
-		  	rdfs:label "220" ;
-			rdf:value 220.0
-		] , [
-			rdfs:label "880" ;
-			rdf:value 880.0
-		]
+		lv2:minimum 1.0 ;
+		lv2:default 5.0 ;
+		lv2:maximum 50.0 ;
+		units:unit units:hz
 	] .

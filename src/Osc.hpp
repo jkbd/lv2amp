@@ -30,15 +30,20 @@ namespace jkbd {
   class Osc {
   public:
     enum Port {
-	       TRIANGLE = 0,
-	       INVERSE = 1,	       
-	       FREQ = 2,
+	       OUTPUT1 = 0,
+	       OUTPUT2 = 1,
+	       OUTPUT3 = 2,
+	       OUTPUT4 = 3,
+	       FREQ = 4
     };
 
     // Port buffers
-    float*       tri;
-    float*       inv;
+    float*       out1;
+    float*       out2;
+    float*       out3;
+    float*       out4;
     const float* freq;
+    const int phases = 4; // Dividable by 2!
 
     void sample_rate(double sr);
     void run(uint32_t n_samples);
@@ -49,6 +54,7 @@ namespace jkbd {
 
     double sr{ 8000.0 };
     bool rise{ true };
+    int p{ 0 }; // Current phase
   };
 
   static LV2_Handle

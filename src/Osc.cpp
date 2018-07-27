@@ -28,15 +28,41 @@ namespace jkbd {
       // Ping pong between the bounds
       if (y >= a-m/2) {
 	rise = false;
+	p = (p + 1)%phases;
       }
       if (y <= 0+m/2) {
 	rise = true;
+	p = (p + 1)%phases;
       }
       rise ? y += (m) : y -= (m);
 
       // Copy to output
-      tri[pos] = y;
-      inv[pos] = a - y;
+      switch(p) {
+      case 0:
+	out1[pos] = a-y;
+	out2[pos] = 0;
+	out3[pos] = 0;
+	out4[pos] = y;
+	break;
+      case 1:
+	out1[pos] = a-y;
+	out2[pos] = y;
+	out3[pos] = 0;
+	out4[pos] = 0;
+	break;
+      case 2:
+	out1[pos] = 0;
+	out2[pos] = y;
+	out3[pos] = a-y;
+	out4[pos] = 0;
+	break;
+      case 3:
+	out1[pos] = 0;
+	out2[pos] = 0;
+	out3[pos] = a-y;
+	out4[pos] = y;
+	break;
+      }
 
       f[1] = f[0];
     }
@@ -56,11 +82,17 @@ namespace jkbd {
   {
     Osc* osc = static_cast<Osc*>(instance);
     switch (static_cast<Osc::Port>(port)) {
-    case Osc::Port::TRIANGLE:
-      osc->tri = static_cast<float*>(data);
+    case Osc::Port::OUTPUT1:
+      osc->out1 = static_cast<float*>(data);
       break;
-    case Osc::Port::INVERSE:
-      osc->inv = static_cast<float*>(data);
+    case Osc::Port::OUTPUT2:
+      osc->out2 = static_cast<float*>(data);
+      break;
+    case Osc::Port::OUTPUT3:
+      osc->out3 = static_cast<float*>(data);
+      break;
+    case Osc::Port::OUTPUT4:
+      osc->out4 = static_cast<float*>(data);
       break;
     case Osc::Port::FREQ:
       osc->freq = static_cast<const float*>(data);
