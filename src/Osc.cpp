@@ -11,7 +11,7 @@ namespace jkbd {
     Osc::sr = sr;
   }
   
-  void Osc::run(uint32_t n_samples) {
+  void Osc::run(std::uint32_t n_samples) {
     // Smooth frequency parameter
     const float alpha = 0.001f;
     float s = alpha * freq[0];
@@ -19,7 +19,7 @@ namespace jkbd {
     // Amplitude
     const float a = 1.0;
 
-    for (uint32_t pos = 0; pos < n_samples; ++pos) {
+    for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
       f[0] = s + ((1-alpha) * f[1]);
 
       // Slope of the rising edge
@@ -78,7 +78,7 @@ namespace jkbd {
     return static_cast<LV2_Handle>(osc);
   }
 
-  static void connect_port(LV2_Handle instance, uint32_t port, void* data)
+  static void connect_port(LV2_Handle instance, std::uint32_t port, void* data)
   {
     Osc* osc = static_cast<Osc*>(instance);
     switch (static_cast<Osc::Port>(port)) {
@@ -103,7 +103,7 @@ namespace jkbd {
   static void activate(LV2_Handle instance) {
   }
   
-  static void run(LV2_Handle instance, uint32_t n_samples) {
+  static void run(LV2_Handle instance, std::uint32_t n_samples) {
     Osc* osc = static_cast<Osc*>(instance);
     osc->run(n_samples);
   }
@@ -122,7 +122,7 @@ namespace jkbd {
 
 // Force no C++ name mangeling
 extern "C" {  
-  const LV2_Descriptor* lv2_descriptor(uint32_t index) {
+  const LV2_Descriptor* lv2_descriptor(std::uint32_t index) {
     switch (index) {
     case 0:  return &jkbd::descriptor;
     default: return nullptr;

@@ -19,8 +19,10 @@
 #ifndef OSC_H
 #define OSC_H
 
+#include <cstdint>
 #include <cmath>
 #define _USE_MATH_DEFINES
+
 
 #include "lv2.h"
 
@@ -43,7 +45,7 @@ namespace jkbd {
     const int phases = 4; // TODO: static_assert, dividable by 2!
 
     void sample_rate(double sr);
-    void run(uint32_t n_samples);
+    void run(std::uint32_t n_samples);
     
   private:
     float f[2]{ 0.0f, 0.0f };
@@ -62,14 +64,14 @@ namespace jkbd {
   
   static void
   connect_port(LV2_Handle instance,
-	       uint32_t   port,
+	       std::uint32_t   port,
 	       void*      data);
   
   static void
   activate(LV2_Handle instance);
   
   static void
-  run(LV2_Handle instance, uint32_t n_samples);
+  run(LV2_Handle instance, std::uint32_t n_samples);
   
   static void
   deactivate(LV2_Handle instance);
@@ -97,7 +99,7 @@ namespace jkbd {
 
 // Force no C++ name mangeling
 extern "C" {  
-  const LV2_Descriptor* lv2_descriptor(uint32_t index);
+  const LV2_Descriptor* lv2_descriptor(std::uint32_t index);
 }
 
 #endif // OSC_H
