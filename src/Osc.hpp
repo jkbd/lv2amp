@@ -29,6 +29,8 @@
 // A namespace to force these symbols being not exported in the shared
 // library.
 namespace jkbd {
+
+  template<std::uint32_t channels=4>
   class Osc {
   public:
     enum Port {
@@ -40,9 +42,9 @@ namespace jkbd {
     };
 
     // Port buffers
-    float* out[4];
+    float* out[channels];
     const float* freq;
-    const int phases = 4; // TODO: static_assert, dividable by 2!
+    const int phases = channels; // TODO: static_assert, dividable by 2!
 
     void sample_rate(double sr);
     void run(std::uint32_t n_samples);
