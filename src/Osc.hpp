@@ -30,7 +30,7 @@
 // library.
 namespace jkbd {
 
-  template<std::uint32_t channels=4>
+  template<const std::uint32_t channels=4> // TODO: static_assert, dividable by 2!
   class Osc {
   public:
     enum Port {
@@ -44,7 +44,6 @@ namespace jkbd {
     // Port buffers
     float* out[channels];
     const float* freq;
-    const int phases = channels; // TODO: static_assert, dividable by 2!
 
     void sample_rate(double sr);
     void run(std::uint32_t n_samples);
@@ -55,7 +54,7 @@ namespace jkbd {
 
     double sr{ 8000.0 };
     bool rise{ true };
-    int p{ 0 }; // Current phase
+    std::uint32_t c[2]{ 3U, 0U }; // Currently rendered channels
   };
 
   static LV2_Handle

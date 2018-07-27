@@ -6,13 +6,13 @@ namespace jkbd {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
 
-  template<std::uint32_t channels>
+  template<const std::uint32_t channels>
   void Osc<channels>::sample_rate(double sr) {
     // TODO: assert 0 < sr <= 192000.0 ?
     Osc::sr = sr;
   }
 
-  template<std::uint32_t channels>
+  template<const std::uint32_t channels>
   void Osc<channels>::run(std::uint32_t n_samples) {
     // Smooth frequency parameter
     const float alpha = 0.001f;
@@ -30,42 +30,22 @@ namespace jkbd {
       // Ping pong between the bounds
       if (y >= a-m/2) {
 	rise = false;
-	p = (p + 1)%phases;
+	c[1] = (c[1] + 2) % channels;
       }
       if (y <= 0+m/2) {
 	rise = true;
-	p = (p + 1)%phases;
+	c[0] = (c[0] + 2) % channels;
       }
       rise ? y += (m) : y -= (m);
 
       // Copy to output
-      switch(p) {
-      case 0:
-	out[0][pos] = a-y;
-	out[1][pos] = 0;
-	out[2][pos] = 0;
-	out[3][pos] = y;
-	break;
-      case 1:
-	out[0][pos] = a-y;
-	out[1][pos] = y;
-	out[2][pos] = 0;
-	out[3][pos] = 0;
-	break;
-      case 2:
-	out[0][pos] = 0;
-	out[1][pos] = y;
-	out[2][pos] = a-y;
-	out[3][pos] = 0;
-	break;
-      case 3:
-	out[0][pos] = 0;
-	out[1][pos] = 0;
-	out[2][pos] = a-y;
-	out[3][pos] = y;
-	break;
-      }
-
+      // Really, nobody understands this...
+      out[c[0]][pos] = y;
+      out[c[1]][pos] = a-y;
+      out[(c[0]+2)%channels][pos] = 0;
+      out[(c[1]+2)%channels][pos] = 0;
+      // TODO: Still only works with 4 channels!
+      
       f[1] = f[0];
     }
   }
