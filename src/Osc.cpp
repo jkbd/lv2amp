@@ -12,14 +12,19 @@ namespace jkbd {
   }
   
   void Osc::run(uint32_t n_samples) {
+    // Smooth frequency parameter
+    const float alpha = 0.001f;
+    float s = alpha * freq[0];
+    
     // Amplitude
     const float a = 1.0;
-    
-    // Anstieg der linken Flanke
-    float m = 2*a*freq[0]/sr;
-    
-    for (uint32_t pos = 0; pos < n_samples; ++pos) {
 
+    for (uint32_t pos = 0; pos < n_samples; ++pos) {
+      f[0] = s + ((1-alpha) * f[1]);
+
+      // Slope of the rising edge
+      float m = (f[0]*2*a)/sr;
+      
       // Ping pong between the bounds
       if (y >= a-m/2) {
 	rise = false;
@@ -28,9 +33,12 @@ namespace jkbd {
 	rise = true;
       }
       rise ? y += (m) : y -= (m);
-      
+
+      // Copy to output
       tri[pos] = y;
       inv[pos] = a - y;
+
+      f[1] = f[0];
     }
   }
   

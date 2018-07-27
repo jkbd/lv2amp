@@ -44,6 +44,7 @@ namespace jkbd {
     void run(uint32_t n_samples);
     
   private:
+    float f[2]{ 0.0f, 0.0f };
     float y{ 0.0f };
 
     double sr{ 8000.0 };
