@@ -42,9 +42,10 @@ namespace jkbd {
       // Really, nobody understands this...
       out[c[0]][pos] = y;
       out[c[1]][pos] = a-y;
-      out[(c[0]+2)%channels][pos] = 0;
-      out[(c[1]+2)%channels][pos] = 0;
-      // TODO: Still only works with 4 channels!
+      for(std::uint32_t i = 1; i<(channels/2); ++i) {
+	out[(c[0]+2*i)%channels][pos] = 0;
+	out[(c[1]+2*i)%channels][pos] = 0;
+      }      
       
       f[1] = f[0];
     }
