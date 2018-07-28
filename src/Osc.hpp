@@ -23,14 +23,14 @@
 #include <cmath>
 #define _USE_MATH_DEFINES
 
-
 #include "lv2.h"
+
+#include "LinearRoundRobin.hpp"
 
 // A namespace to force these symbols being not exported in the shared
 // library.
 namespace jkbd {
 
-  template<const std::uint32_t channels=4> // TODO: static_assert, dividable by 2!
   class Osc {
   public:
     enum Port {
@@ -41,8 +41,10 @@ namespace jkbd {
 	       Freq
     };
 
+    Osc(double sample_rate);
+    
     // Port buffers
-    float* out[channels];
+    float* out[4];
     const float* freq;
 
     void sample_rate(double sr);
@@ -50,11 +52,9 @@ namespace jkbd {
     
   private:
     float f[2]{ 0.0f, 0.0f };
-    float y{ 0.0f };
-
     double sr{ 8000.0 };
-    bool rise{ true };
-    std::uint32_t phase{ 0U };
+
+    LinearRoundRobin<4> lrr;
   };
 
   static LV2_Handle
