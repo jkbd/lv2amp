@@ -84,7 +84,7 @@ namespace jkbd {
       f[0] = s + ((1-alpha) * f[1]);
 
       lrr.frequency(f[0]);
-      //lrr->render(out, pos);
+      lrr.render(out, pos);
       
       f[1] = f[0];
     }
