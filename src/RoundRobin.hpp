@@ -26,7 +26,16 @@
 #include "lv2.h"
 
 namespace jkbd {
-  
+
+  /**
+   * This oscilator generates a traveling triangle signal so than the
+   * sum of all outputs is `1.0` for each frame. The number of
+   * channels is given as a template parameter, which enables the
+   * compiler to check if you are dealing with the asserted number of
+   * channels.
+   *
+   * TODO: By now this only works for even channel numbers!
+   */
   template<std::uint32_t channels>
   class LinearRoundRobin {
   public:
@@ -39,7 +48,7 @@ namespace jkbd {
     // Note: This does not reset the frequency!
     void reset_phase();
 
-    // Render the frame at position. Out must be in the form of
+    // Render the frame at position. `Out` must be in the form of
     // out[channel][position].
     void render(float* out[channels], const std::uint32_t position);
     
@@ -52,8 +61,7 @@ namespace jkbd {
     std::uint32_t phase;
 
     // Amplitude
-    const float a = 1.0;
-    
+    const float a = 1.0;    
     float freq;
   };
 
@@ -115,9 +123,6 @@ namespace jkbd {
       }
     }
   }
-
-
-  
   
 } // namespace jkbd
 
