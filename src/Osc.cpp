@@ -30,21 +30,29 @@ namespace jkbd {
       // Ping pong between the bounds
       if (y >= a-m/2) {
 	rise = false;
-	c[1] = (c[1] + 2) % channels;
+	phase = (phase+1) % channels;
       }
       if (y <= 0+m/2) {
 	rise = true;
-	c[0] = (c[0] + 2) % channels;
+	phase = (phase+1) % channels;
       }
       rise ? y += (m) : y -= (m);
 
-      // Copy to output
-      // Really, nobody understands this...
-      out[c[0]][pos] = y;
-      out[c[1]][pos] = a-y;
-      for(std::uint32_t i = 1; i<(channels/2); ++i) {
-	out[(c[0]+2*i)%channels][pos] = 0;
-	out[(c[1]+2*i)%channels][pos] = 0;
+      // Distribute and copy to output
+      for(std::uint32_t i = 0; i<channels; ++i) {
+	switch((phase-i)%channels) {	  
+	case 0:
+	case 1:
+	  if (i%2 == 0) {
+	    out[i][pos] = a-y;
+	  } else {
+	    out[i][pos] = y;
+	  }
+	  break;
+	default:
+	  out[i][pos] = 0;
+	  break;
+	}
       }      
       
       f[1] = f[0];

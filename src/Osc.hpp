@@ -34,7 +34,7 @@ namespace jkbd {
   class Osc {
   public:
     enum Port {
-	       Out_0, // = 0
+	       Out_0, // = 0, use automatic enumeration
 	       Out_1,
 	       Out_2,
 	       Out_3,
@@ -54,7 +54,7 @@ namespace jkbd {
 
     double sr{ 8000.0 };
     bool rise{ true };
-    std::uint32_t c[2]{ 3U, 0U }; // Currently rendered channels
+    std::uint32_t phase{ 0U };
   };
 
   static LV2_Handle
