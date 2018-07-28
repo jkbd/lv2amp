@@ -25,8 +25,6 @@
 
 #include "lv2.h"
 
-#include "LinearRoundRobin.hpp"
-
 // A namespace to force these symbols being not exported in the shared
 // library.
 namespace jkbd {

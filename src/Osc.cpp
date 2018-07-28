@@ -2,7 +2,6 @@
 
 namespace jkbd {
 
-
   template<std::uint32_t channels>
   LinearRoundRobin<channels>::LinearRoundRobin(double sample_rate) :
     freq(440.0), sr(sample_rate) {
