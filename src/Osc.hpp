@@ -24,41 +24,11 @@
 #define _USE_MATH_DEFINES
 
 #include "lv2.h"
+#include "RoundRobin.hpp"
 
 // A namespace to force these symbols being not exported in the shared
 // library.
 namespace jkbd {
-
-    template<std::uint32_t channels>
-  class LinearRoundRobin {
-  public:
-    LinearRoundRobin(double sample_rate);
-
-    // Set or get the frequency
-    void frequency(double f);
-    double frequency() const;
-
-    // Note: This does not reset the frequency!
-    void reset_phase();
-
-    // Render the frame at position. Out must be in the form of
-    // out[channel][position].
-    void render(float* out[channels], const std::uint32_t position);
-    
-  private:
-    double sr{ 8000.0 };
-    
-    // The current state of the oscillator
-    float y;
-    bool rise;
-    std::uint32_t phase;
-
-    // Amplitude
-    const float a = 1.0;
-    
-    float freq;
-  };
-
   
   class Osc {
   public:
