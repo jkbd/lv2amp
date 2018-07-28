@@ -109,7 +109,7 @@ namespace jkbd {
   static const void* extension_data(const char* uri) {
     return nullptr;
   }  
-}
+} // namespace jkbd
 
 // Force no C++ name mangeling
 extern "C" {  
