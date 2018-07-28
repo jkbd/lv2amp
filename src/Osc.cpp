@@ -6,7 +6,8 @@ namespace jkbd {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
 
-  Osc::Osc(double sample_rate) : sr(sample_rate), lrr(sr) {
+  Osc::Osc(double sample_rate) : sr(sample_rate) {
+    lrr = lrr_create();
   }
 
   
@@ -23,8 +24,8 @@ namespace jkbd {
     for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
       f[0] = s + ((1-alpha) * f[1]);
 
-      lrr.frequency(f[0]);
-      lrr.render(out, pos);
+      //lrr->frequency(f[0]);
+      //lrr->render(out, pos);
       
       f[1] = f[0];
     }
