@@ -54,7 +54,7 @@ namespace jkbd {
     float f[2]{ 0.0f, 0.0f };
     double sr{ 8000.0 };
 
-    LinearRoundRobin<4>* lrr;
+    LinearRoundRobin<4> lrr;
   };
 
   static LV2_Handle

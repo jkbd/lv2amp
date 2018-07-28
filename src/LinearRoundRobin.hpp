@@ -59,16 +59,4 @@ namespace jkbd {
 
 } // namespace jkbd
 
-// Class factories
-extern "C" {  
-  jkbd::LinearRoundRobin<4>* lrr_create() {
-    return new jkbd::LinearRoundRobin<4>(48000.0f);
-  }
-
-  void lrr_destroy(jkbd::LinearRoundRobin<4>* llr) {
-    delete llr;
-  }
-}
-
-
 #endif // LINEAR_ROUND_ROBIN_H
