@@ -8,16 +8,16 @@ namespace jkbd {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
 
-  Osc::Osc(double sample_rate) : sr(sample_rate), lrr(sample_rate) {
+  Plugin::Plugin(double sample_rate) : sr(sample_rate), lrr(sample_rate) {
   }
 
   
-  void Osc::sample_rate(double sr) {
+  void Plugin::sample_rate(double sr) {
     // TODO: assert 0 < sr <= 192000.0 ?
-    Osc::sr = sr;
+    Plugin::sr = sr;
   }
 
-  void Osc::run(std::uint32_t n_samples) {
+  void Plugin::run(std::uint32_t n_samples) {
     // Smooth frequency parameter
     const float alpha = 0.001f;
     float s = alpha * freq[0];
@@ -37,27 +37,27 @@ namespace jkbd {
 				const char*               bundle_path,
 				const LV2_Feature* const* features)
   {
-    Osc* osc = new Osc(rate);
+    Plugin* osc = new Plugin(rate);
     return static_cast<LV2_Handle>(osc);
   }
 
   static void connect_port(LV2_Handle instance, std::uint32_t port, void* data)
   {
-    Osc* osc = static_cast<Osc*>(instance);
-    switch (static_cast<Osc::Port>(port)) {
-    case Osc::Port::Out_0:
-      osc->out[Osc::Port::Out_0] = static_cast<float*>(data);
+    Plugin* osc = static_cast<Plugin*>(instance);
+    switch (static_cast<Plugin::PortID>(port)) {
+    case Plugin::PortID::Out_0:
+      osc->out[Plugin::PortID::Out_0] = static_cast<float*>(data);
       break;
-    case Osc::Port::Out_1:
-      osc->out[Osc::Port::Out_1] = static_cast<float*>(data);
+    case Plugin::PortID::Out_1:
+      osc->out[Plugin::PortID::Out_1] = static_cast<float*>(data);
       break;
-    case Osc::Port::Out_2:
-      osc->out[Osc::Port::Out_2] = static_cast<float*>(data);
+    case Plugin::PortID::Out_2:
+      osc->out[Plugin::PortID::Out_2] = static_cast<float*>(data);
       break;
-    case Osc::Port::Out_3:
-      osc->out[Osc::Port::Out_3] = static_cast<float*>(data);
+    case Plugin::PortID::Out_3:
+      osc->out[Plugin::PortID::Out_3] = static_cast<float*>(data);
       break;
-    case Osc::Port::Freq:
+    case Plugin::PortID::Freq:
       osc->freq = static_cast<const float*>(data);
       break;     
     }
@@ -67,7 +67,7 @@ namespace jkbd {
   }
   
   static void run(LV2_Handle instance, std::uint32_t n_samples) {
-    Osc* osc = static_cast<Osc*>(instance);
+    Plugin* osc = static_cast<Plugin*>(instance);
     osc->run(n_samples);
   }
   
@@ -75,7 +75,7 @@ namespace jkbd {
   }
   
   static void cleanup(LV2_Handle instance) {
-    delete static_cast<Osc*>(instance);
+    delete static_cast<Plugin*>(instance);
   }
   
   static const void* extension_data(const char* uri) {

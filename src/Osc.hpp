@@ -30,17 +30,17 @@
 // library.
 namespace jkbd {
   
-  class Osc {
+  class Plugin {
   public:
-    enum Port {
-	       Out_0, // = 0, use automatic enumeration
+    enum PortID {
+	       Out_0, // use automatic enumeration
 	       Out_1,
 	       Out_2,
 	       Out_3,
 	       Freq
     };
 
-    Osc(double sample_rate);
+    Plugin(double sample_rate);
     
     // Port buffers
     float* out[4];
