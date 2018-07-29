@@ -43,7 +43,7 @@ add_custom_target(bundle
 
 # Position independed code is set automatically
 add_library(${PROJECT_NAME} MODULE
-    src/Osc.hpp src/Osc.cpp)
+    src/Plugin.hpp src/Plugin.cpp)
 add_dependencies(${PROJECT_NAME} bundle)
 set_target_properties(${PROJECT_NAME} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${LV2_BUNDLE_DIR})

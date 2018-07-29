@@ -1,4 +1,4 @@
-#include "Osc.hpp"
+#include "Plugin.hpp"
 
 namespace jkbd {
 
