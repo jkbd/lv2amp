@@ -2,33 +2,23 @@
 
 namespace jkbd {
 
-
-  
   inline float decibel_to_coef(float gain) {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
-
-  Plugin::Plugin(double sample_rate) : sr(sample_rate), lrr(sample_rate) {
-  }
-
-  
+    
   void Plugin::sample_rate(double sr) {
     // TODO: assert 0 < sr <= 192000.0 ?
     Plugin::sr = sr;
   }
 
-  void Plugin::run(std::uint32_t n_samples) {
-    // Smooth frequency parameter
-    const float alpha = 0.001f;
-    float s = alpha * freq[0];
-    
-    for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
-      f[0] = s + ((1-alpha) * f[1]);
+  
+  Tremolo::Tremolo(double sample_rate) {
+    sr = sample_rate;
+  }
 
-      lrr.frequency(f[0]);
-      lrr.render(out, pos);
-      
-      f[1] = f[0];
+  void Tremolo::run(std::uint32_t n_samples) {
+    for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
+      //out = in;
     }
   }
   
@@ -37,28 +27,22 @@ namespace jkbd {
 				const char*               bundle_path,
 				const LV2_Feature* const* features)
   {
-    Plugin* osc = new Plugin(rate);
-    return static_cast<LV2_Handle>(osc);
+    Plugin* p = new Tremolo(rate);
+    return static_cast<LV2_Handle>(p);
   }
 
   static void connect_port(LV2_Handle instance, std::uint32_t port, void* data)
   {
-    Plugin* osc = static_cast<Plugin*>(instance);
-    switch (static_cast<Plugin::PortID>(port)) {
-    case Plugin::PortID::Out_0:
-      osc->out[Plugin::PortID::Out_0] = static_cast<float*>(data);
+    Tremolo* p = static_cast<Tremolo*>(instance);
+    switch (static_cast<Tremolo::PortID>(port)) {
+    case Tremolo::PortID::in_0:
+      p->in = static_cast<float*>(data);
       break;
-    case Plugin::PortID::Out_1:
-      osc->out[Plugin::PortID::Out_1] = static_cast<float*>(data);
+    case Tremolo::PortID::out_0:
+      p->out = static_cast<float*>(data);
       break;
-    case Plugin::PortID::Out_2:
-      osc->out[Plugin::PortID::Out_2] = static_cast<float*>(data);
-      break;
-    case Plugin::PortID::Out_3:
-      osc->out[Plugin::PortID::Out_3] = static_cast<float*>(data);
-      break;
-    case Plugin::PortID::Freq:
-      osc->freq = static_cast<const float*>(data);
+    case Tremolo::PortID::freq:
+      p->f = static_cast<const float*>(data);
       break;     
     }
   }
@@ -67,15 +51,15 @@ namespace jkbd {
   }
   
   static void run(LV2_Handle instance, std::uint32_t n_samples) {
-    Plugin* osc = static_cast<Plugin*>(instance);
-    osc->run(n_samples);
+    Plugin* p = static_cast<Tremolo*>(instance);
+    p->run(n_samples);
   }
   
   static void deactivate(LV2_Handle instance) {
   }
   
   static void cleanup(LV2_Handle instance) {
-    delete static_cast<Plugin*>(instance);
+    delete static_cast<Tremolo*>(instance);
   }
   
   static const void* extension_data(const char* uri) {

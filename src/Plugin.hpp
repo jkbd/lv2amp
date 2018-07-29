@@ -26,36 +26,35 @@
 #include "lv2.h"
 #include "RoundRobin.hpp"
 
-// A namespace to force these symbols being not exported in the shared
-// library.
+
 namespace jkbd {
   
   class Plugin {
-  public:
-    enum PortID {
-	       Out_0, // use automatic enumeration
-	       Out_1,
-	       Out_2,
-	       Out_3,
-	       Freq
-    };
-
-    Plugin(double sample_rate);
-    
-    // Port buffers
-    float* out[4];
-    const float* freq;
-
+  public:    
     void sample_rate(double sr);
-    void run(std::uint32_t n_samples);
-    
-  private:
-    float f[2]{ 0.0f, 0.0f };
+    virtual void run(std::uint32_t n_samples) = 0;
+  protected:
     double sr{ 8000.0 };
-
-    LinearRoundRobin<4> lrr;
   };
 
+  class Tremolo : public Plugin {
+  public:
+    enum PortID {
+		 in_0, // use automatic enumeration
+		 out_0,
+		 freq
+    };
+
+    Tremolo(double sample_rate);
+    void run(std::uint32_t n_samples);
+
+    // Port buffers
+    float* in;
+    float* out;
+    const float* f;
+    
+  };
+  
   static LV2_Handle
   instantiate(const LV2_Descriptor*     descriptor,
 	      double                    rate,
