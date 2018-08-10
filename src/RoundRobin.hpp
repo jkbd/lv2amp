@@ -33,8 +33,6 @@ namespace jkbd {
    * channels is given as a template parameter, which enables the
    * compiler to check if you are dealing with the asserted number of
    * channels.
-   *
-   * TODO: By now this only works for even channel numbers!
    */
   template<std::uint32_t channels>
   class LinearRoundRobin {
@@ -57,18 +55,26 @@ namespace jkbd {
     
     // The current state of the oscillator
     float y;
-    bool rise;
+    enum class SlopeState { rise, fall, silent };
+    SlopeState channel_slope_state[channels];
     std::uint32_t phase;
 
     // Amplitude
     const float a = 1.0;    
     float freq;
   };
-
+  
   template<std::uint32_t channels>
   LinearRoundRobin<channels>::LinearRoundRobin(double sample_rate) :
     freq(440.0), sr(sample_rate) {
     reset_phase();
+
+    // Initialize the state per channel
+    channel_slope_state[0] = SlopeState::rise;
+    for (int i = 1; i < channels-1; ++i) {
+      channel_slope_state[i] = SlopeState::silent;
+    }
+    channel_slope_state[channels-1] = SlopeState::fall;
   }
 
   template<std::uint32_t channels>
@@ -85,7 +91,6 @@ namespace jkbd {
   template<std::uint32_t channels>
   void LinearRoundRobin<channels>::reset_phase() {
     y = 0.0f;
-    rise = true;
     phase = 0U;
   }
 
@@ -95,29 +100,23 @@ namespace jkbd {
     // Slope of the rising edge
     float m = (freq*2*a)/sr;
       
-    // Ping pong between the bounds
-    if (y >= a-m/2) {
-      rise = false;
+    if (y <= a-m/2) {
+      y += (m);
+    } else {
+      y = 0;
       phase = (phase+1) % channels;
     }
-    if (y <= 0+m/2) {
-      rise = true;
-      phase = (phase+1) % channels;
-    }
-    rise ? y += (m) : y -= (m);
 
     // Distribute and copy to output
     for(std::uint32_t i = 0; i<channels; ++i) {
-      switch((phase-i)%channels) {	  
-      case 0:
-      case 1:
-	if (i%2 == 0) {
-	  out[i][position] = a-y;
-	} else {
-	  out[i][position] = y;
-	}
+      switch(channel_slope_state[(phase+i)%channels]) {
+      case SlopeState::rise:
+	out[i][position] = a-y;
 	break;
-      default:
+      case SlopeState::fall:
+	out[i][position] = y;
+	break;
+      default: // SlopeState::silent:
 	out[i][position] = 0;
 	break;
       }
