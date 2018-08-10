@@ -109,12 +109,13 @@ namespace jkbd {
 
     // Distribute and copy to output
     for(std::uint32_t i = 0; i<channels; ++i) {
-      switch(channel_slope_state[(phase+i)%channels]) {
+      const int ch = (channels-phase+i)%channels;
+      switch(channel_slope_state[ch]) {
       case SlopeState::rise:
-	out[i][position] = a-y;
+	out[i][position] = y;
 	break;
       case SlopeState::fall:
-	out[i][position] = y;
+	out[i][position] = a-y;
 	break;
       default: // SlopeState::silent:
 	out[i][position] = 0;
