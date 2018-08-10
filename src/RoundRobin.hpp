@@ -100,8 +100,8 @@ namespace jkbd {
     // Slope of the rising edge
     float m = (freq*2*a)/sr;
       
-    if (y <= a-m/2) {
-      y += (m);
+    if (y < a-m) {
+      y += m;
     } else {
       y = 0;
       phase = (phase+1) % channels;
