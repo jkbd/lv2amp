@@ -19,14 +19,13 @@ namespace jkbd {
 
   void Osc::run(std::uint32_t n_samples) {    
     for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
-      std::uint32_t base = (now[0] + pos) % table_length;
-      std::uint32_t harmonic = (now[1] + 2*pos) % table_length;
+      std::uint32_t base = (now + pos) % table_length;
+      std::uint32_t harmonic = 2*(now + pos) % table_length;
       
       out[Osc::Port::Out_0][pos] = lut[base];
       out[Osc::Port::Out_1][pos] = lut[harmonic];
     }
-    now[0] = (now[0] + n_samples) % table_length;
-    now[1] = (now[1] + 2*n_samples) % table_length;
+    now = (now + n_samples) % table_length;
   }
   
   static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,

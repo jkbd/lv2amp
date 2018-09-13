@@ -58,7 +58,7 @@ namespace jkbd {
 	     };
  
     double sr{ 8000.0 };
-    std::uint32_t now[2]{ 0, 0 };
+    std::uint32_t now{ 0 };
   };
 
 
