@@ -8,7 +8,7 @@ namespace jkbd {
     return ((gain) > -90.0f ? powf(10.0f, (gain) * 0.05f) : 0.0f);
   }
 
-  Osc::Osc(double sample_rate) : sr(sample_rate), lrr(sample_rate) {
+  Osc::Osc(double sample_rate) : sr(sample_rate) {
   }
 
   
@@ -17,19 +17,16 @@ namespace jkbd {
     Osc::sr = sr;
   }
 
-  void Osc::run(std::uint32_t n_samples) {
-    // Smooth frequency parameter
-    const float alpha = 0.001f;
-    float s = alpha * freq[0];
-    
+  void Osc::run(std::uint32_t n_samples) {    
     for (std::uint32_t pos = 0; pos < n_samples; ++pos) {
-      f[0] = s + ((1-alpha) * f[1]);
-
-      lrr.frequency(f[0]);
-      lrr.render(out, pos);
+      std::uint32_t base = (now[0] + pos) % table_length;
+      std::uint32_t harmonic = (now[1] + 2*pos) % table_length;
       
-      f[1] = f[0];
+      out[Osc::Port::Out_0][pos] = lut[base];
+      out[Osc::Port::Out_1][pos] = lut[harmonic];
     }
+    now[0] = (now[0] + n_samples) % table_length;
+    now[1] = (now[1] + 2*n_samples) % table_length;
   }
   
   static LV2_Handle instantiate(const LV2_Descriptor*     descriptor,
@@ -50,15 +47,6 @@ namespace jkbd {
       break;
     case Osc::Port::Out_1:
       osc->out[Osc::Port::Out_1] = static_cast<float*>(data);
-      break;
-    case Osc::Port::Out_2:
-      osc->out[Osc::Port::Out_2] = static_cast<float*>(data);
-      break;
-    case Osc::Port::Out_3:
-      osc->out[Osc::Port::Out_3] = static_cast<float*>(data);
-      break;
-    case Osc::Port::Freq:
-      osc->freq = static_cast<const float*>(data);
       break;     
     }
   }
