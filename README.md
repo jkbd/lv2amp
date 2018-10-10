@@ -9,7 +9,7 @@ $ cmake ..
 $ make
 ```
 
-To install copy the bundle `osc.lv2` to the [standard
+To install, copy the bundle `osc.lv2` manually to the [standard
 locations](http://lv2plug.in/pages/filesystem-hierarchy-standard.html)
 or run
 
@@ -17,4 +17,8 @@ or run
 $ make install
 ```
 
-to copy it to `~/.lv2/`.
+to install it in `$PREFIX/lib/lv2/`. You could change the `$PREFIX` by running
+
+```
+$ cmake -D CMAKE_INSTALL_PREFIX=/your/path .
+```
