@@ -6,7 +6,7 @@ A simple LV2 example in C++. Just for experiments.
 ```bash
 $ mkdir build && cd build
 $ cmake ..
-$ make
+$ cmake --build .
 ```
 
 To install, copy the bundle `osc.lv2` manually to the [standard
